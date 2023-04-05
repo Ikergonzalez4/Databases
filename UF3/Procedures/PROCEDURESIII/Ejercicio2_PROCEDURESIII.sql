@@ -1,20 +1,16 @@
-/*2. A la BD World, crea un procediment que donada una ciutat,
-retorni el recompte dels seus habitants per pantalla juntament amb el seu país.*/
+/*2.Aneu a Northwind.
+Creeu un procediment que mostri les dades dels shippers per pantalla.*/
 
-use world;
+use sakila;
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS `getCityPopulation` //
-CREATE PROCEDURE `getCityPopulation`(IN cityName CHAR(35))
+DROP PROCEDURE IF EXISTS showShippers //
+CREATE PROCEDURE showShippers()
 BEGIN
-   SELECT city.Population, country.Name AS Country
-   FROM city
-   JOIN country ON city.CountryCode = country.Code
-   WHERE city.Name = cityName
-   LIMIT 1;
-END //
+  SELECT * FROM customer;
+END // 
 DELIMITER ;
 
+CALL showShippers();
 
-CALL getCityPopulation('Barcelona');
 
