@@ -1,21 +1,15 @@
-/*4. A la BD World, Crea un procediment que donada una llengua,
-guardi en un fitxer els països que la parlen. */
+/*4. Dins de la base dades world, crea un procedure que permeti inserir dades noves dins de la taula City*/
 
 use world;
 
 DELIMITER // 
-DROP PROCEDURE IF EXISTS exportLanguages // 
-CREATE PROCEDURE exportLanguages(IN lang CHAR(30)) 
+DROP PROCEDURE IF EXISTS insertCity // 
+CREATE PROCEDURE insertCity(IN vName CHAR(35), IN vCountryCode CHAR(3), IN vDistrict CHAR(20), IN vPopulation INT)
 BEGIN
-	DECLARE countries_list VARCHAR(500); 
-    
-    SELECT GROUP_CONCAT(DISTINCT c.Name SEPARATOR '\n') INTO countries_list
-    FROM countrylanguage cl
-    INNER JOIN country c ON cl.CountryCode = c.Code
-    WHERE cl.Language = lang AND cl.IsOfficial = 'T';
-    
-    SELECT countries_list INTO OUTFILE 'C:/Users/ikerg/Desktop/paises2.txt';
-END // 
+  INSERT INTO City (Name, CountryCode, District, Population) VALUES (vName, vCountryCode, vDistrict, vPopulation);
+END //
 DELIMITER ;
 
-CALL exportLanguages('Spanish');
+CALL insertCity('Barcelona', 'ESP', 'Catalunya', 1620343);
+select * from city;
+

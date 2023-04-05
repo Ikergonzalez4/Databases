@@ -1,17 +1,18 @@
-/*3. A la BD northwind, crea el procediment calcIVA a la base de dades de procediments que donats 2 paràmetres d'entrada FLOAT 
-(preu i iva) i un de sortida amb el preu final incrementat amb l'¡mpost.
-Fés un CALL amb una variable no declarada.*/
+/*3.Aneu a la BD Northwind. Mireu la taula customers.
+Creeu un nou procediment que comprovi si un CustomerID passat per paràmetre existeix. En cas de que exiteixi, 
+que retorni el seu ContactName. Si no existeix que mostri un missatge d'error.
+Aquest procediment ha de tenir dos paràmetres (1 d'entrada i un de sortida).*/
 
-use northwind;
-
-DELIMITER // 
-DROP PROCEDURE IF EXISTS calcIVA // 
-CREATE PROCEDURE calcIVA(IN cost FLOAT, IN iva FLOAT, OUT finalCost FLOAT) 
+DELIMITER //
+DROP PROCEDURE IF EXISTS checkCustomerID //
+CREATE PROCEDURE checkCustomerID(IN vCustomerID SMALLINT, OUT vContactName VARCHAR(90))
 BEGIN
-	SET finalCost = cost * iva;
-END // 
+  SELECT CONCAT(first_name, ' ', last_name) INTO vContactName FROM customer WHERE customer_id = vCustomerID;
+  IF vContactName IS NULL THEN
+    SELECT 'Error: CustomerID does not exist' AS ErrorMessage;
+  END IF;
+END //
 DELIMITER ;
 
-SET @finalCost = 0;
-CALL northwind.calcIVA(10,2,@finalCost);
-SELECT @finalCost;
+CALL checkCustomerID(1, @contactName);
+SELECT @contactName;
